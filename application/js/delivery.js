@@ -1,5 +1,9 @@
 var Delivery = (function () {
-    var deliveryModes = { "invoice" : {price: 49} },
+    var deliveryModes = {
+        "dhl": {price: 49},
+        "schenker": {price: 49},
+        "cod": {price: 69}
+    },
 
     getPrice = function (id) {
         if(typeof(deliveryModes[id]) == "undefined") {
