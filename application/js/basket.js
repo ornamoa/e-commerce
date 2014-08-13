@@ -3,7 +3,7 @@ var Basket = (function () {
     var add = function (form) {
         var product = Product.converter(form),
             existInCartAtPosition = isProductExistInBasket(product);
-
+            
         if(existInCartAtPosition !== false){
             update(existInCartAtPosition, product.quantity);
         } else {
@@ -12,14 +12,18 @@ var Basket = (function () {
     },
 
     remove = function (entry) {
-        basket.splice(entry, 1);
+        if(typeof(basket[entry]) != "undefined"){
+            basket.splice(entry, 1);
+        }
     },
 
     update = function (entry, value) {
-        basket[entry].quantity += value;
+        if(typeof(basket[entry]) != "undefined"){
+            basket[entry].quantity += value;
 
-        if(basket[entry].quantity <= 0) {
-            remove(entry);
+            if(basket[entry].quantity <= 0) {
+                remove(entry);
+            }
         }
     },
 
