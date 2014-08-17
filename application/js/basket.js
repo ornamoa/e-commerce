@@ -3,7 +3,7 @@ var Basket = (function () {
     var add = function (form) {
         var product = Product.converter(form),
             existInCartAtPosition = isProductExistInBasket(product);
-            
+
         if(existInCartAtPosition !== false){
             update(existInCartAtPosition, product.quantity);
         } else {
@@ -12,16 +12,19 @@ var Basket = (function () {
     },
 
     remove = function (entry) {
+        entry = parseInt(entry, 10);
         if(typeof(basket[entry]) != "undefined"){
             basket.splice(entry, 1);
         }
     },
 
     update = function (entry, value) {
-        if(typeof(basket[entry]) != "undefined"){
-            basket[entry].quantity += value;
+        var currentItem = basket[entry];
 
-            if(basket[entry].quantity <= 0) {
+        if(typeof(currentItem) != "undefined"){
+            currentItem.quantity += value;
+            currentItem.totalPrice = currentItem.quantity * currentItem.price;
+            if(currentItem.quantity <= 0) {
                 remove(entry);
             }
         }
@@ -34,14 +37,22 @@ var Basket = (function () {
                 totalPrice = 0;
 
             for(; i < ilen; i += 1) {
-                totalPrice += basket[i].quantity * basket[i].price;
+                totalPrice += parseInt(basket[i].quantity * basket[i].price, 10);
             }
 
             return totalPrice;
         },
 
         getTotalItems = function () {
-            return basket.length;
+            var i = 0,
+                ilen = basket.length,
+                totalItems = 0;
+
+            for(; i < ilen; i += 1){
+                totalItems += parseInt(basket[i].quantity, 10);
+            };
+
+            return totalItems;
         },
 
         getDeliveryCost = function (deliveryType) {
@@ -50,13 +61,23 @@ var Basket = (function () {
 
         getPaymentCost = function (paymentType) {
             return Payment.getPrice(paymentType);
+        },
+
+        getTotalEntries = function () {
+            return basket.length;
+        },
+
+        getTotalTax = function () {
+            return Tax.getTaxFor(basket);
         };
 
         return {
             totalPrice: getTotalPrice(),
             totalItems: getTotalItems(),
             deliveryCost: getDeliveryCost,
-            paymentCost: getPaymentCost
+            paymentCost: getPaymentCost,
+            totalEntries: getTotalEntries(),
+            totalTax: getTotalTax()
         };
     },
 
@@ -83,12 +104,49 @@ var Basket = (function () {
         }
     },
 
+    refresh = function () {
+        var basketRowsHtml = generateBasketRows(),
+            basketSummaryHtml = generateBasketSummary();
+
+        $("#basket-entries").html(basketRowsHtml);
+        $("#basket-summary").html(basketSummaryHtml);
+    },
+
+    generateBasketRows = function () {
+        var i = 0,
+            ilen = basket.length,
+            html = "";
+
+            for(; i < ilen; i += 1){
+                html += "<tr data-entry='"+i+"'>";
+                html += "<td>"+basket[i].pid+"</td>";
+                html += "<td>"+basket[i].name+"</td>";
+                html += "<td>"+basket[i].quantity+"</td>";
+                html += "<td>"+basket[i].totalPrice+"</td>";
+                html += "<td><button class='remove-from-cart'>Remove</button></td>";
+                html += "</tr>";
+            }
+
+            return html;
+    },
+
+    generateBasketSummary = function () {
+        var html = "";
+            html += "<p>Antal produkter "+Basket.summary().totalItems+"</p>";
+            html += "<p>Antal rader "+Basket.summary().totalEntries+"</p>";
+            html += "<p>Total kostnad "+Basket.summary().totalPrice+"</p>";
+
+        return html;
+    },
+
+
     basket = [];
 
     return {
         add: add,
         remove: remove,
         update: update,
+        refresh: refresh,
         summary: summary,
         self: getBasket()
     };

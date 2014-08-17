@@ -4,9 +4,93 @@
         <title>E-commerce</title>
     </head>
     <body>
+        <div id="basket">
+            <table>
+                <thead>
+                    <th>
+                        <span>Artikelnummer</span>
+                    </th>
+
+                    <th>
+                        <span>Produktnamn</span>
+                    </th>
+
+                    <th>
+                        <span>Antal</span>
+                    </th>
+
+                    <th>
+                        <span>Total pris</span>
+                    </th>
+
+                    <th>
+                        <span>Ta bort</span>
+                    </th>
+                </thead>
+                <tbody id="basket-entries">
+
+                </tbody>
+            </table>
+
+            <div id="basket-summary">
+
+            </div>
+        </div>
+
+        <div class="product-lister">
+            <ul>
+                <li>
+                    <form action="" method="post">
+                        <input type="hidden" name="name" value="Led Lampa" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <input type="hidden" name="price" value="99" />
+                        <input type="hidden" name="pid" value="LED-99K" />
+
+                        <h2>Item1</h2>
+                        <p>
+                            Some random description
+                        </p>
+                        <button class="add-to-cart">Add</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="" method="post">
+                        <input type="hidden" name="name" value="Glob" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <input type="hidden" name="price" value="55" />
+                        <input type="hidden" name="pid" value="KLO-39P" />
+
+                        <h2>Item2</h2>
+                        <p>
+                            Some random description
+                        </p>
+                        <button class="add-to-cart">Add</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="" method="post">
+                        <input type="hidden" name="name" value="Halogen" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <input type="hidden" name="price" value="79" />
+                        <input type="hidden" name="pid" value="LKD-90K" />
+
+                        <h2>Item3</h2>
+                        <p>
+                            Some random description
+                        </p>
+                        <button class="add-to-cart">Add</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+
+        <script type="text/javascript" src="application/js/plugins/jquery.js"></script>
+        <script type="text/javascript" src="application/js/taxes.js"></script>
         <script type="text/javascript" src="application/js/product.js"></script>
         <script type="text/javascript" src="application/js/payment.js"></script>
         <script type="text/javascript" src="application/js/delivery.js"></script>
         <script type="text/javascript" src="application/js/basket.js"></script>
+        <script type="text/javascript" src="application/js/app.js"></script>
     </body>
 </html>
