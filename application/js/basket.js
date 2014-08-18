@@ -115,14 +115,15 @@ var Basket = (function () {
     generateBasketRows = function () {
         var i = 0,
             ilen = basket.length,
-            html = "";
+            html = "",
+            currency = Currency.get().long;
 
             for(; i < ilen; i += 1){
                 html += "<tr data-entry='"+i+"'>";
                 html += "<td>"+basket[i].pid+"</td>";
                 html += "<td>"+basket[i].name+"</td>";
                 html += "<td>"+basket[i].quantity+"</td>";
-                html += "<td>"+basket[i].totalPrice+"</td>";
+                html += "<td>"+basket[i].totalPrice+currency+"</td>";
                 html += "<td><button class='remove-from-cart'>Remove</button></td>";
                 html += "</tr>";
             }
@@ -131,10 +132,11 @@ var Basket = (function () {
     },
 
     generateBasketSummary = function () {
-        var html = "";
+        var currency = Currency.get().long,
+            html = "";
             html += "<p>Antal produkter "+Basket.summary().totalItems+"</p>";
             html += "<p>Antal rader "+Basket.summary().totalEntries+"</p>";
-            html += "<p>Total kostnad "+Basket.summary().totalPrice+"</p>";
+            html += "<p>Total kostnad "+Basket.summary().totalPrice+currency+"</p>";
 
         return html;
     },
